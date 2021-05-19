@@ -14,6 +14,8 @@ class PlaylistPlayerActivity: AppCompatActivity() {
         binding = PlaylistListingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
         initView()
     }
 
