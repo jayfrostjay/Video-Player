@@ -15,8 +15,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val service: Service = ApiService().createService(Service::class.java)
     private val repository: Repository = Repository(service)
+    private val listAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Timber.d("TESTING: initView")
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -25,7 +28,9 @@ class MainActivity : AppCompatActivity() {
         callList()
     }
 
+
     private fun initView(){
+
         binding.list.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
@@ -35,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private fun callList(){
         repository.getPlaylist {
             it?.let{
-                Timber.d("TESTING: $it")
+
             }
         }
     }
