@@ -2,6 +2,7 @@ package com.jayfrostjay.myapplication
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jayfrostjay.myapplication.api.ApiService
@@ -9,7 +10,6 @@ import com.jayfrostjay.myapplication.api.Repository
 import com.jayfrostjay.myapplication.api.Service
 import com.jayfrostjay.myapplication.data.Playlist
 import com.jayfrostjay.myapplication.databinding.ActivityMainBinding
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
     private var listAdapter: ListingAdapter = ListingAdapter(list)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Timber.d("TESTING: initView")
-
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -35,10 +33,15 @@ class MainActivity : AppCompatActivity() {
         binding.list.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.adapter = this@MainActivity.listAdapter
+
+            this@MainActivity.listAdapter.apply {
+                onClick = {
+
+                }
+            }
         }
     }
 
-    @SuppressLint("LogNotTimber")
     private fun callList(){
         repository.getPlaylist {
             it?.let{ list ->

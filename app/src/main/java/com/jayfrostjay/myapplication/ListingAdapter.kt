@@ -1,5 +1,6 @@
 package com.jayfrostjay.myapplication
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +13,27 @@ import com.jayfrostjay.myapplication.data.Playlist
 
 class ListingAdapter(private val list: List<Playlist>?): RecyclerView.Adapter<ListingAdapter.ListingViewHolder>() {
 
+    var onClick: ((Playlist) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListingViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.playlist_listing, parent, false)
         return ListingViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ListingViewHolder, position: Int) {
-        list?.get(position)?.let{
+        list?.get(position)?.let{ item ->
             holder.apply {
-                Glide.with(holder.view).load(it.thumbnailUrl).into(image)
-                title.text = "Title: ${it.title}"
-                description.text = "Description: ${it.description}"
-                presenter.text = "Presenter: ${it.presenterName}"
-                duration.text = "Duration: ${it.videoDuration.toString()}"
+                Glide.with(view).load(item.thumbnailUrl).into(image)
+                title.text = "Title: ${item.title}"
+                description.text = "Description: ${item.description}"
+                presenter.text = "Presenter: ${item.presenterName}"
+                duration.text = "Duration: ${item.videoDuration.toString()}"
+
+                card.setOnClickListener {
+                    onClick?.invoke(item)
+                }
             }
         }
     }
