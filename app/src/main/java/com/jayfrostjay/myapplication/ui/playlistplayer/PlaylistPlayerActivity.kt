@@ -13,9 +13,15 @@ class PlaylistPlayerActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState, persistentState)
         binding = PlaylistListingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initView()
     }
 
-    private initView(){
-        
+    private fun initView(){
+
+    }
+
+    companion object {
+        const val KEY_VID_URL = "vidURL"
     }
 }

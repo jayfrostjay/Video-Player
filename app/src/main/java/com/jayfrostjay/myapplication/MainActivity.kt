@@ -1,5 +1,6 @@
 package com.jayfrostjay.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +9,8 @@ import com.jayfrostjay.myapplication.api.Repository
 import com.jayfrostjay.myapplication.api.Service
 import com.jayfrostjay.myapplication.data.Playlist
 import com.jayfrostjay.myapplication.databinding.ActivityMainBinding
+import com.jayfrostjay.myapplication.ui.playlistplayer.PlaylistPlayerActivity
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +37,10 @@ class MainActivity : AppCompatActivity() {
 
             this@MainActivity.listAdapter.apply {
                 onClick = {
-
+                    val myIntent = Intent(this@MainActivity, PlaylistPlayerActivity::class.java).apply {
+                        putExtra(PlaylistPlayerActivity.KEY_VID_URL, it.videoUrl)
+                    }
+                    this@MainActivity.startActivity(myIntent)
                 }
             }
         }
