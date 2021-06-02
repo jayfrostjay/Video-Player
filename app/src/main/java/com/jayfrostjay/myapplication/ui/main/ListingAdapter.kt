@@ -1,4 +1,4 @@
-package com.jayfrostjay.myapplication
+package com.jayfrostjay.myapplication.ui.main
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.jayfrostjay.myapplication.data.Playlist
 import com.jayfrostjay.myapplication.databinding.PlaylistListingBinding
 
-class ListingAdapter(private val list: List<Playlist>?): RecyclerView.Adapter<ListingAdapter.ListingViewHolder>() {
+class ListingAdapter(var list: List<Playlist>?): RecyclerView.Adapter<ListingAdapter.ListingViewHolder>() {
 
     var onClick: ((Playlist) -> Unit)? = null
 
