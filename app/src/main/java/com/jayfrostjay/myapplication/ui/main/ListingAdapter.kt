@@ -21,15 +21,8 @@ class ListingAdapter(var list: List<Playlist>?): RecyclerView.Adapter<ListingAda
     override fun onBindViewHolder(holder: ListingViewHolder, position: Int) {
         list?.get(position)?.let{ item ->
             holder.apply {
-                Glide.with(view.root).load(item.thumbnailUrl).into(image)
-                title.text = "Title: ${item.title}"
-                description.text = "Description: ${item.description}"
-                presenter.text = "Presenter: ${item.presenterName}"
-                duration.text = "Duration: ${item.videoDuration.toString()}"
-
-                card.setOnClickListener {
-                    onClick?.invoke(item)
-                }
+                this.onClick = this@ListingAdapter.onClick
+                binData(item)
             }
         }
     }
@@ -38,13 +31,18 @@ class ListingAdapter(var list: List<Playlist>?): RecyclerView.Adapter<ListingAda
         return list?.size ?: 0
     }
 
-    class ListingViewHolder(v: PlaylistListingBinding): RecyclerView.ViewHolder(v.root) {
-        val view = v
-        val card = v.card
-        val image = v.image
-        val title = v.title
-        val description = v.description
-        val presenter = v.presenter
-        val duration = v.duration
+    class ListingViewHolder(private val v: PlaylistListingBinding): RecyclerView.ViewHolder(v.root) {
+        var onClick: ((Playlist) -> Unit)? = null
+        fun binData(item: Playlist?){
+            item ?: return
+            Glide.with(v.root).load(item.thumbnailUrl).into(v.image)
+            v.title.text = "Title: ${item.title}"
+            v.description.text = "Description: ${item.description}"
+            v.presenter.text = "Presenter: ${item.presenterName}"
+            v.duration.text = "Duration: ${item.videoDuration.toString()}"
+            v.card.setOnClickListener {
+                onClick?.invoke(item)
+            }
+        }
     }
 }
