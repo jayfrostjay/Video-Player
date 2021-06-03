@@ -17,7 +17,6 @@ class ListingAdapter(var list: List<Playlist>?): RecyclerView.Adapter<ListingAda
         return ListingViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ListingViewHolder, position: Int) {
         list?.get(position)?.let{ item ->
             holder.apply {
@@ -31,7 +30,7 @@ class ListingAdapter(var list: List<Playlist>?): RecyclerView.Adapter<ListingAda
         return list?.size ?: 0
     }
 
-    class ListingViewHolder(private val v: PlaylistListingBinding): RecyclerView.ViewHolder(v.root) {
+    inner class ListingViewHolder(private val v: PlaylistListingBinding): RecyclerView.ViewHolder(v.root) {
         var onClick: ((Playlist) -> Unit)? = null
         fun binData(item: Playlist?){
             item ?: return

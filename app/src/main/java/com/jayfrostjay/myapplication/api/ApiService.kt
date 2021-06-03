@@ -9,7 +9,21 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 
-class ApiService() {
+class ApiService {
+
+    private val httpClient: OkHttpClient
+        get() {
+            val builder = OkHttpClient.Builder().also {
+                it.addInterceptor { chain ->
+                    val requestBuilder = chain.request().newBuilder()
+                        .header("AUTHORIZATION", "")
+
+                    chain.proceed(requestBuilder.build())
+                }
+            }
+
+            return builder.build()
+        }
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://quipper.github.io/")
