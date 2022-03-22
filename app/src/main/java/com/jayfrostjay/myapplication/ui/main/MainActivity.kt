@@ -1,19 +1,12 @@
 package com.jayfrostjay.myapplication.ui.main
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jayfrostjay.myapplication.api.ApiService
-import com.jayfrostjay.myapplication.api.Repository
-import com.jayfrostjay.myapplication.api.Service
-import com.jayfrostjay.myapplication.data.Playlist
 import com.jayfrostjay.myapplication.databinding.ActivityMainBinding
 import com.jayfrostjay.myapplication.ui.playlistplayer.PlaylistPlayerActivity
 import timber.log.Timber
@@ -42,6 +35,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView(){
+        binding.loader.visibility = View.VISIBLE
+
         binding.list.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.adapter = this@MainActivity.listAdapter
@@ -56,11 +51,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.swipe.setOnRefreshListener {
+            viewModel.clearList()
+            viewModel.getList()
+        }
+
         viewModel.getList()
     }
 
     private fun initObservers(){
         viewModel.list.observe(this, Observer {
+            binding.apply {
+                loader.visibility = View.GONE
+                swipe.isRefreshing = false
+            }
+
             this@MainActivity.listAdapter.apply {
                 list = it
                 notifyDataSetChanged()

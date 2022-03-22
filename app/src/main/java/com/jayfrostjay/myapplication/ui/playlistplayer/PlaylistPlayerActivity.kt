@@ -40,6 +40,11 @@ class PlaylistPlayerActivity: AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun onStop() {
+        super.onStop()
+        videoPlayer.stop()
+    }
+
     private fun initView(){
         videoPlayer = SimpleExoPlayer.Builder(this).build()
         binding.player.player = videoPlayer

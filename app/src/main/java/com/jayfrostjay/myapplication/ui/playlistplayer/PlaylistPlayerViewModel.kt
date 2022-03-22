@@ -13,7 +13,6 @@ class PlaylistPlayerViewModel: ViewModel() {
 
     fun loadVideoUrl(url: String){
         videoUrlData = url
-
         _videoUrl.postValue(videoUrlData)
     }
 
